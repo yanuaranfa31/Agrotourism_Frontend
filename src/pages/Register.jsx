@@ -1,18 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-/* import axios from 'axios';
- */
+import axios from 'axios'; // Mengimpor axios
+
 function Register() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         nama_lengkap: '',
-        alamat: '',
-        tanggal_lahir: '',
         password: '',
         confirmPassword: ''
     });
 
+    // Handle perubahan input form
     const handleChange = (e) => {
         setFormData({
           ...formData,
@@ -20,19 +19,26 @@ function Register() {
         });
     };
 
+    // Handle submit form
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         // Validasi password dan konfirmasi password
         if (formData.password !== formData.confirmPassword) {
             alert('Password dan Konfirmasi Password tidak cocok!');
             return;
         }
-
+    
+        // Menambahkan log untuk memastikan data yang dikirim
+        console.log("Data yang dikirim:", formData); // Log data yang dikirim
+    
         try {
+            // Mengirim data registrasi ke backend
             const response = await axios.post('http://localhost:5000/api/auth/register', formData);
+    
+            // Menangani respons dari backend
             if (response.data.success) {
-                alert('Pendaftaran berhasil!'); // Menambahkan notifikasi sukses
+                alert('Pendaftaran berhasil!');
                 navigate('/login'); // Arahkan ke halaman login setelah sukses
             } else {
                 alert(response.data.message); // Tampilkan pesan kesalahan jika ada
@@ -42,9 +48,10 @@ function Register() {
             alert('Terjadi kesalahan, silakan coba lagi!');
         }
     };
-
+    
+    // Redirect ke halaman login jika sudah punya akun
     const handleLoginRedirect = () => {
-        navigate('/login'); // Arahkan ke halaman login
+        navigate('/login');
     };
 
     return (
