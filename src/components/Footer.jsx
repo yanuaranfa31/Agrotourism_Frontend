@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from "../asset/Logoweb.png"
 
 const Footer = () => {
     return (
@@ -29,7 +30,7 @@ const Footer = () => {
             </ul>
             </div>
             <div className="md:w-1/3 flex items-center justify-center">
-            <img src="./logo.png" alt="Logo" className="w-24" />
+            <img src={logo} alt="Logo" className="h-20 w-auto" />
             </div>
         </div>
         </div>

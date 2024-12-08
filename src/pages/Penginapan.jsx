@@ -1,4 +1,8 @@
 import Navbar from "../components/Navbar";
+import granddian from "../asset/granddian.jpg";
+import hotelfisa from "../asset/hotelfisa.jpg";
+import salsadahlia from "../asset/salsadahlia.jpg";
+
 // Penginapan.jsx
 
 import React from 'react';
@@ -13,19 +17,27 @@ const Penginapan = () => {
       address: 'Jl. Raya Tonjong, Lebak, Penggarutan, Kec. Bumiayu, Kabupaten Brebes, Jawa Tengah 52273',
       price: 'Rp 475.000/malam',
       phone: '+62 812-3581-9950',
-      imageUrl: 'GrandDian.jpg',
+      imageUrl: granddian,
     },
     {
       id: 2,
-      name: 'Hotel Melati',
-      facilities: ['Gym', 'Free Parking', 'Pet Friendly', 'Laundry Service', 'Airport Shuttle'],
-      address: 'Jl. Melati No. 12, Jakarta',
-      price: 'Rp 350.000/malam',
-      phone: '+62 811-9876-5432',
-      imageUrl: 'link-gambar-hotel-melati.jpg',
+      name: 'Hotel Fisa',
+      facilities: ['Free Breakfast', 'AC Room', 'Free Wifi', 'Cocok Untuk Anak', 'Tempat Parkir'],
+      address: 'Jl. Lingkar No.39, RW.KM. 02, Kemaron, Negaradaha, Kec. Bumiayu, Kabupaten Brebes, Jawa Tengah 52273',
+      price: 'Rp 300.000/malam',
+      phone: '(0289) 4403033',
+      imageUrl: hotelfisa,
     },
-    // Tambahkan data penginapan lainnya jika perlu
-  ];
+    {
+      id: 3,
+      name: 'Hotel Salsa Dahlia',
+      facilities: ['Free Breakfast', 'AC Room', 'Cocok Untuk Anak', 'Tempat Parkir'],
+      address: 'Jl. Pangeran Diponegoro No.600, Dukuhtengah, Jatisawit, Kec. Bumiayu, Kabupaten Brebes',
+      price: 'Rp 400.000/malam',
+      phone: '(0289) 5159047',
+      imageUrl: salsadahlia,
+    },
+  ]; 
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -36,7 +48,7 @@ const Penginapan = () => {
             <img
               src={hotel.imageUrl}
               alt={hotel.name}
-              className="w-1/3 h-48 object-cover"
+              className="w-1/3 h-full object-cover"
             />
             <div className="w-2/3 p-4">
               <h2 className="text-2xl font-semibold">{hotel.name}</h2>
