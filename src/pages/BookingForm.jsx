@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import QRISImage from "../asset/QRIS.jpg"; // Pastikan path gambar QRIS benar
 
+
 export default function BookingForm() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -37,7 +38,7 @@ export default function BookingForm() {
         sessionStorage.setItem("bookingData", JSON.stringify(bookingData)); // Simpan data pemesanan
 
         // Arahkan ke halaman konfirmasi
-        navigate("/confirmation");
+        navigate("/Confirmation");
     };
 
     // Menghandle perubahan file gambar (bukti pembayaran)

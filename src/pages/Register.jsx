@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Mengimpor axios
+import logo from "../asset/Logoweb.png"
+
 
 function Register() {
     const navigate = useNavigate();
@@ -57,7 +59,7 @@ function Register() {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl">
-                <img src="/src/asset/logo.png" alt="logo" className="w-32 h-10 mx-auto mb-4" />
+                <img src="/src/asset/Logoweb.png" alt="logo" className="w-25 h-10 mx-auto mb-4" />
                 <h2 className="text-2xl font-semibold text-center mb-6">DAFTAR</h2>
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <input

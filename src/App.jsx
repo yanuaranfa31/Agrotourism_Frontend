@@ -10,6 +10,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import LupaPassword from './pages/LupaPassword';
 import BookingForm from './pages/BookingForm';
+import Confirmation from './pages/Confirmation'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/penginapan" element={<Penginapan />} />
 
           <Route path="/booking" element={<BookingForm />} />
+          <Route path="/confirmation" element={<Confirmation />} />
         </Routes>
       </div>
     </BrowserRouter>
