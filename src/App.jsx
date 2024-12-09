@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React from 'react';
+import { AuthProvider } from "./context/AuthContext";
 import Navbar from './components/Navbar';
 import Beranda from './pages/Beranda';
 import CekKuota from './pages/CekKuota';
@@ -14,6 +15,7 @@ import Confirmation from './pages/Confirmation'
 
 function App() {
   return (
+    <AuthProvider>
     <BrowserRouter>
       <div>
         <Navbar />
@@ -33,6 +35,7 @@ function App() {
         </Routes>
       </div>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 

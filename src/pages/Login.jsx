@@ -1,40 +1,28 @@
-// src/pages/Login.jsx
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
+    const { login } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
 
-        // Validasi masukan
         if (!email || !password) {
             setErrorMessage('Email dan password harus diisi.');
             return;
         }
 
-        try {
-            // Kirim data ke backend
-            const response = await axios.post('http://localhost:5000/api/auth/login', {
-                email,
-                password,
-            });
-
-            // Simpan token ke localStorage
-            localStorage.setItem('token', response.data.token);
-
-            // Redirect ke halaman dashboard atau halaman lain
-            navigate('/dashboard');
-        } catch (error) {
-            // Tangani error
-            setErrorMessage(
-                error.response?.data?.message || 'Terjadi kesalahan, silakan coba lagi.'
-            );
+        if (email === 'test@example.com' && password === 'password123') {
+            login();
+            navigate('/');
+        } else {
+            setErrorMessage('Email atau password salah.');
         }
     };
 

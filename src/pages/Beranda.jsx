@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // Tambahkan ini untuk navigasi
+import { useNavigate } from "react-router-dom"; // Untuk navigasi
 import Teh from "../asset/Teh.jpg";
 import DestinasiWisata from "./DestinasiWisata";
 import PanduanBooking from "./PanduanBooking";
@@ -9,7 +9,16 @@ export default function Beranda() {
     const navigate = useNavigate(); // Gunakan useNavigate untuk navigasi
 
     const handleBookingClick = () => {
-        navigate("/booking"); // Navigasi ke halaman BookingForm
+        // Cek apakah user sudah login
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        if (isLoggedIn) {
+            // Jika sudah login, navigasi ke halaman BookingForm
+            navigate("/booking");
+        } else {
+            // Jika belum login, arahkan ke halaman login
+            alert("Anda harus login terlebih dahulu untuk melakukan booking.");
+            navigate("/login");
+        }
     };
 
     return (
@@ -30,7 +39,7 @@ export default function Beranda() {
 
                     <div className="mt-10 flex items-center space-x-4">
                         <button
-                            onClick={handleBookingClick} // Pindah ke halaman BookingForm
+                            onClick={handleBookingClick} // Pindah ke halaman BookingForm atau Login
                             className="bg-blue-300 text-white px-4 py-2 rounded-full font-bold flex items-center hover:bg-gray-800"
                         >
                             Booking Now
