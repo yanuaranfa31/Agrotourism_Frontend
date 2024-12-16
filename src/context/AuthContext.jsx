@@ -1,24 +1,65 @@
-import React, { createContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import api from '../api'
 
-// Membuat AuthContext
-export const AuthContext = createContext();
+const AuthContext = createContext();
+
+const getUserFromLocalStorage = () => {
+    const token = localStorage.getItem('token');
+    const userString = localStorage.getItem('user');
+
+    if (token && userString) {
+        const user = JSON.parse(userString);
+        return { token, user };
+    }
+
+    return null;
+};
 
 export const AuthProvider = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const login = () => {
-        setIsLoggedIn(true); // Menandakan bahwa user telah login
-        localStorage.setItem('isLoggedIn', 'true'); // Menyimpan status login di localStorage
+    useEffect(() => {
+        try {
+            // Fetch user information from the API or local storage
+            const data = getUserFromLocalStorage(); // Implement this function
+            setUser(data.user);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    const login = async (credentials) => {
+        // Implement login logic using your API client
+        try {
+
+            const data = await api.login(credentials);
+
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user))
+
+            return data.user;
+        } catch (error) {
+            setError(error.message);
+        }
     };
 
     const logout = () => {
-        setIsLoggedIn(false); // Menandakan bahwa user telah logout
-        localStorage.removeItem('isLoggedIn'); // Menghapus status login dari localStorage
+        setUser(null);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+        <AuthContext.Provider value={{ user, loading, error, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
+};
+
+export const useAuth = () => {
+    return useContext(AuthContext);
 };
