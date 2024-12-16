@@ -1,25 +1,48 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import DestinasiWisata from "./DestinasiWisata";
-import PanduanBooking from "./PanduanBooking";
-import Footer from "../components/Footer";
-
+import React, { useState, useEffect } from 'react';
+import api from '../api';
 
 function CekKuota() {
-    // Data awal, bisa diganti dengan data dinamis dari API
-    const dataKuota = [
-        { tanggal: '2024-11-01', namaWisata: 'Agrowisata Kaligua', jumlahKuota: 50, sisaKuota: 30 },
-        { tanggal: '2024-11-02', namaWisata: 'Agrowisata Kaligua', jumlahKuota: 30, sisaKuota: 10 },
-        { tanggal: '2024-11-03', namaWisata: 'Agrowisata Kaligua', jumlahKuota: 40, sisaKuota: 25 },
-        { tanggal: '2024-11-04', namaWisata: 'Agrowisata Kaligua', jumlahKuota: 60, sisaKuota: 50 },
-    ];
+    const [data, setData] = useState([]);
+    const currentMonth = new Date().getMonth() + 1; // Bulan saat ini, ditambah 1 karena 0-based
+    const formattedMonth = currentMonth.toString().padStart(2, '0'); // Format 2 digit, seperti '01'
+    const [selectedMonth, setSelectedMonth] = useState(formattedMonth);
+    const [filteredData, setFilteredData] = useState([]); // State for filtered data
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-    const [selectedMonth, setSelectedMonth] = useState('11'); // State untuk bulan yang dipilih
+    const fetchData = async () => {
+        setIsLoading(true);
+        setError(null);
 
-    // Fungsi untuk mengubah bulan
+        try {
+            const response = await api.getKuota();
+            setData(response);
+            setFilteredData(response); // Initially set filtered data to all data
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setError('Terjadi kesalahan saat mengambil data kuota.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []); // Fetch data once on component mount
+
     const handleMonthChange = (e) => {
         setSelectedMonth(e.target.value);
     };
+
+    // Function to filter data based on selected month
+    const filterData = (month) => {
+        const filtered = data.filter((item) => item.tanggal.startsWith(`2024-${month}`));
+        setFilteredData(filtered);
+    };
+
+    useEffect(() => {
+        filterData(selectedMonth); // Filter data on month change
+    }, [selectedMonth, data]); // Dependency array includes data for refiltering on data update
 
     return (
         <div className="p-6 pt-20">
@@ -34,44 +57,39 @@ function CekKuota() {
                     onChange={handleMonthChange}
                     className="px-4 py-2 border border-gray-300 rounded-md"
                 >
-                    <option value="01">Januari</option>
-                    <option value="02">Februari</option>
-                    <option value="03">Maret</option>
-                    <option value="04">April</option>
-                    <option value="05">Mei</option>
-                    <option value="06">Juni</option>
-                    <option value="07">Juli</option>
-                    <option value="08">Agustus</option>
-                    <option value="09">September</option>
-                    <option value="10">Oktober</option>
-                    <option value="11">November</option>
-                    <option value="12">Desember</option>
+                    {Array.from({ length: 12 }, (_, i) => {
+                        const month = (i + 1).toString().padStart(2, '0');
+                        return <option key={month} value={month}>{`Bulan ${month}`}</option>;
+                    })}
                 </select>
             </div>
 
-            {/* Tabel Kuota Wisata */}
-            <table className="min-w-full table-auto border-collapse border border-gray-300">
-                <thead className="bg-gray-100">
-                    <tr>
-                        <th className="px-4 py-2 border border-gray-300 text-left">Tanggal</th>
-                        <th className="px-4 py-2 border border-gray-300 text-left">Nama Wisata</th>
-                        <th className="px-4 py-2 border border-gray-300 text-left">Jumlah Kuota</th>
-                        <th className="px-4 py-2 border border-gray-300 text-left">Sisa Kuota</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {dataKuota
-                        .filter((item) => item.tanggal.startsWith(`2024-${selectedMonth}`)) // Filter data berdasarkan bulan yang dipilih
-                        .map((item, index) => (
-                            <tr key={index} className="hover:bg-gray-100">
-                                <td className="px-4 py-2 border border-gray-300">{item.tanggal}</td>
-                                <td className="px-4 py-2 border border-gray-300">{item.namaWisata}</td>
-                                <td className="px-4 py-2 border border-gray-300">{item.jumlahKuota}</td>
-                                <td className="px-4 py-2 border border-gray-300">{item.sisaKuota}</td>
+            {isLoading ? (
+                <div className="text-center">Memuat data kuota...</div>
+            ) : error ? (
+                <div className="text-center text-red-500">{error}</div>
+            ) : (
+                <table className="min-w-full table-auto border-collapse border border-gray-300">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Nama Wisata</th>
+                            <th>Jumlah Kuota</th>
+                            <th>Sisa Kuota</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredData.map((item, index) => (
+                            <tr key={index}>
+                                <td>{item.tanggal}</td>
+                                <td>{item.destinasi}</td>
+                                <td>{item.kuota}</td>
+                                <td>{item.sisa_kuota}</td>
                             </tr>
                         ))}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 }

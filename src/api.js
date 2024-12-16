@@ -65,14 +65,39 @@ const getKuota = async () => {
 };
 
 const approveBooking = async (id) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  };
+  const response = await axios.put(
+    `http://localhost:5000/api/bookings/${id}/approve`,
+    {},
+    {
+      headers: {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    }
+  );
 
-  const response = await api.put(`/bookings/${id}/approve`, { headers })
+  console.log(response);
+  
 
-  return response.data;
+  return response.data
+}
+
+const rejectBooking = async (id) => {
+  const response = await axios.put(
+    `http://localhost:5000/api/bookings/${id}/reject`,
+    {},
+    {
+      headers: {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    }
+  );
+
+  console.log(response);
+  
+
+  return response.data
 }
 
 export default {
@@ -81,5 +106,6 @@ export default {
   bookTicket,
   getKuota,
   approveBooking,
+  rejectBooking,
   setAuthToken, // Optional to expose for setting authorization token
 };

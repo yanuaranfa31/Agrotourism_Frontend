@@ -33,14 +33,23 @@ const ApprovalAdmin = () => {
     }
   };
 
-  const handleApproveReject = async (id) => {
+  const handleApproveReject = async (id, action) => {
     try {
-      const response = await api.approveBooking(id)
-      alert(response.data.message);
-      setSelectedBookingId(null);
-      setEmail('');
+      if (action == 'approve') {
+        const response = await api.approveBooking(id)
+        alert("Success Approve booking");
+        setSelectedBookingId(null);
+        setEmail('');
+      } else {
+        const response = await api.rejectBooking(id)
+        alert("Success Rejecting booking");
+        setSelectedBookingId(null);
+        setEmail('');
+      }
       fetchBookings();
     } catch (err) {
+      console.log(err);
+      
       alert('Error while approving or rejecting booking.');
     }
   };
@@ -94,17 +103,23 @@ const ApprovalAdmin = () => {
                     <td className="px-4 py-2 border-b">{booking.status}</td>
                     <td className="px-4 py-2 border-b">
                       <button
-                        onClick={() => handleApproveReject(booking._id)}
+                        onClick={() => handleApproveReject(booking._id, 'approve')}
                         className="bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600 mr-2"
                       >
-                        Approve/Reject
+                        Approve
                       </button>
                       <button
+                        onClick={() => handleApproveReject(booking._id, 'reject')}
+                        className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-green-600 mr-2"
+                      >
+                        Reject
+                      </button>
+                      {/* <button
                         onClick={() => handleDeleteBooking(booking._id)}
                         className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600"
                       >
                         Delete
-                      </button>
+                      </button> */}
                     </td>
                   </tr>
                 ))

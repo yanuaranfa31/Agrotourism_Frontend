@@ -122,6 +122,15 @@ export default function BookingForm() {
                         </div>
 
                         <div className="mb-4">
+                            <label htmlFor="numberOfTickets" className="block text-sm font-medium text-gray-700">
+                                Total Harga
+                            </label>
+                            <span>
+                                {numberOfTickets * 100000}
+                            </span>
+                        </div>
+
+                        <div className="mb-4">
                             <label htmlFor="guideOption" className="block text-sm font-medium text-gray-700">
                                 Opsi Pemandu
                             </label>
