@@ -4,14 +4,15 @@ import Teh from "../asset/Teh.jpg";
 import DestinasiWisata from "./DestinasiWisata";
 import PanduanBooking from "./PanduanBooking";
 import Footer from "../components/Footer";
+import { useAuth } from "../context/AuthContext";
 
 export default function Beranda() {
     const navigate = useNavigate(); // Gunakan useNavigate untuk navigasi
+    const { user, logout } = useAuth();
 
     const handleBookingClick = () => {
         // Cek apakah user sudah login
-        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-        if (isLoggedIn) {
+        if (user) {
             // Jika sudah login, navigasi ke halaman BookingForm
             navigate("/booking");
         } else {
