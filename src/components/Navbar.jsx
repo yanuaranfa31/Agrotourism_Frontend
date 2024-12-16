@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from '../context/AuthContext';
 import logo from "../asset/Logoweb.png";
 
 const Navbar = () => {
-    const { isLoggedIn, logout } = useContext(AuthContext);
+    const { user, logout } = useAuth();
     const [isScrolled, setIsScrolled] = useState(false);
     const navigate = useNavigate();
 
@@ -65,7 +65,7 @@ const Navbar = () => {
                 </ul>
 
                 <div className="flex items-center space-x-4">
-                    {!isLoggedIn ? (
+                    {!user ? (
                         <>
                             <Link to="/register" className="px-4 py-2 bg-blue-500 text-white rounded-md transition-all cursor-pointer hover:bg-blue-700">
                                 Register
