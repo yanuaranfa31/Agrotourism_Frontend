@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api';
+import moment from 'moment';
 
 function CekKuota() {
     const [data, setData] = useState([]);
@@ -72,19 +73,19 @@ function CekKuota() {
                 <table className="min-w-full table-auto border-collapse border border-gray-300">
                     <thead>
                         <tr>
-                            <th>Tanggal</th>
-                            <th>Nama Wisata</th>
-                            <th>Jumlah Kuota</th>
-                            <th>Sisa Kuota</th>
+                            <th className='text-center py-2 px-4'>Tanggal</th>
+                            <th className='text-center py-2 px-4'>Nama Wisata</th>
+                            <th className='text-center py-2 px-4'>Jumlah Kuota</th>
+                            <th className='text-center py-2 px-4'>Sisa Kuota</th>
                         </tr>
                     </thead>
                     <tbody>
                         {filteredData.map((item, index) => (
                             <tr key={index}>
-                                <td>{item.tanggal}</td>
-                                <td>{item.destinasi}</td>
-                                <td>{item.kuota}</td>
-                                <td>{item.sisa_kuota}</td>
+                                <td className='text-center py-2 px-4'>{moment(item.tanggal).format('YYYY-MM-DD')}</td>
+                                <td className='text-center py-2 px-4'>{item.destinasi}</td>
+                                <td className='text-center py-2 px-4'>{item.kuota}</td>
+                                <td className='text-center py-2 px-4'>{item.sisa_kuota}</td>
                             </tr>
                         ))}
                     </tbody>
